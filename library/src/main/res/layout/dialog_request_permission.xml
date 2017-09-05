@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25.0dip"
         android:gravity="center"
-        android:text=""
+        android:text="权限请求"
         android:textSize="20.0sp"/>
 
     <TextView

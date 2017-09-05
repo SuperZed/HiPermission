@@ -25,6 +25,7 @@ public class HiPermission {
 
     private String mTitle;
     private String mMsg;
+    private boolean mIsShowDialog = false;
     private int mStyleResId = -1;
     private PermissionCallback mCallback;
     private List<PermissionItem> mCheckPermissions;
@@ -98,18 +99,16 @@ public class HiPermission {
      *
      * @param callback
      */
-    public void checkMutiPermission(PermissionCallback callback) {
+    private void checkMutiPermission(PermissionCallback callback) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (callback != null)
                 callback.onFinish();
             return;
         }
-
         if (mCheckPermissions == null) {
             mCheckPermissions = new ArrayList<>();
             mCheckPermissions.addAll(getNormalPermissions());
         }
-
         //检查权限，过滤已允许的权限
         Iterator<PermissionItem> iterator = mCheckPermissions.listIterator();
         while (iterator.hasNext()) {
@@ -123,8 +122,17 @@ public class HiPermission {
             if (callback != null)
                 callback.onFinish();
         }
+    }
 
-
+    /**
+     * 检查多个权限
+     *
+     * @param callback
+     * @param isShowDialog 是否弹窗
+     */
+    public void checkMutiPermission(PermissionCallback callback, boolean isShowDialog) {
+        mIsShowDialog = isShowDialog;
+        checkMutiPermission(callback);
     }
 
     /**
@@ -150,6 +158,7 @@ public class HiPermission {
         PermissionActivity.setCallBack(mCallback);
         Intent intent = new Intent(mContext, PermissionActivity.class);
         intent.putExtra(ConstantValue.DATA_TITLE, mTitle);
+        intent.putExtra(ConstantValue.SHOW_DIALOG, mIsShowDialog);
         intent.putExtra(ConstantValue.DATA_PERMISSION_TYPE, mPermissionType);
         intent.putExtra(ConstantValue.DATA_MSG, mMsg);
         intent.putExtra(ConstantValue.DATA_FILTER_COLOR, mFilterColor);

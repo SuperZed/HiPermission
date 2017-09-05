@@ -13,6 +13,7 @@ public interface ConstantValue {
     String DATA_ANIM_STYLE = "data_anim_style";
     String DATA_PERMISSIONS = "data_permissions";
     String DATA_CALLBACK = "data_callback";
+    String SHOW_DIALOG = "show_dialog";
 
 
 }

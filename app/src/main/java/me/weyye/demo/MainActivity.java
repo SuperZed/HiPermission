@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onGuarantee(String permission, int position) {
                                 Log.i(TAG, "onGuarantee");
                             }
-                        });
+                        },false);
                 break;
             case R.id.btn2:
                 //After you have set the theme, you must called filterColor () to set the color of the icon
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onGuarantee(String permission, int position) {
                                 Log.i(TAG, "onGuarantee");
                             }
-                        });
+                        },false);
                 break;
             case R.id.btn3:
                 List<PermissionItem> permissions = new ArrayList<PermissionItem>();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onGuarantee(String permission, int position) {
                                 Log.i(TAG, "onGuarantee");
                             }
-                        });
+                        },false);
                 break;
             case R.id.btn4:
                 //request single permission only called onDeny or onGuarantee

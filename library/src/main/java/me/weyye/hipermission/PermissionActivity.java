@@ -35,6 +35,7 @@ public class PermissionActivity extends AppCompatActivity {
     private int mPermissionType;
     private String mTitle;
     private String mMsg;
+    private boolean mIsShowDialog;
     private static PermissionCallback mCallback;
     private List<PermissionItem> mCheckPermissions;
     private Dialog mDialog;
@@ -70,12 +71,16 @@ public class PermissionActivity extends AppCompatActivity {
             //单个权限申请
             if (mCheckPermissions == null || mCheckPermissions.size() == 0)
                 return;
-
             requestPermission(new String[]{mCheckPermissions.get(0).Permission}, REQUEST_CODE_SINGLE);
         } else {
             mAppName = getApplicationInfo().loadLabel(getPackageManager());
-            //多个权限
-            showPermissionDialog();
+            if (mIsShowDialog) {
+                //弹窗提示请求多个权限
+                showPermissionDialog();
+            } else {
+                String[] strs = getPermissionStrArray();
+                ActivityCompat.requestPermissions(PermissionActivity.this, strs, REQUEST_CODE_MUTI);
+            }
         }
     }
 
@@ -85,10 +90,8 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     private void showPermissionDialog() {
-
         String title = getPermissionTitle();
         String msg = TextUtils.isEmpty(mMsg) ? String.format(getString(R.string.permission_dialog_msg), mAppName) : mMsg;
-
         PermissionView contentView = new PermissionView(this);
         contentView.setGridViewColum(mCheckPermissions.size() < 3 ? mCheckPermissions.size() : 3);
         contentView.setTitle(title);
@@ -183,6 +186,7 @@ public class PermissionActivity extends AppCompatActivity {
         mFilterColor = intent.getIntExtra(ConstantValue.DATA_FILTER_COLOR, 0);
         mStyleId = intent.getIntExtra(ConstantValue.DATA_STYLE_ID, -1);
         mAnimStyleId = intent.getIntExtra(ConstantValue.DATA_ANIM_STYLE, -1);
+        mIsShowDialog = intent.getBooleanExtra(ConstantValue.SHOW_DIALOG,false);
         mCheckPermissions = (List<PermissionItem>) intent.getSerializableExtra(ConstantValue.DATA_PERMISSIONS);
     }
 
